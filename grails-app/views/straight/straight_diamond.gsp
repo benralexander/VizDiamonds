@@ -1,200 +1,70 @@
-
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>ui tests</title>
     <link rel="stylesheet" type="text/css" href="${resource(dir: 'css', file: 'cow.css')}" />
-    <script type="text/javascript">
-        function canvasLayer(location, id) {
-            var canvas1 = document.getElementById('canvas');
-            return canvas1.getContext("2d");
-        }
-
-
-
-        function drawSomeText(x, y, text, maxWidth, ctx) {
-            //metric will receive the measures of the text
-            var metric = ctx.measureText(text);
-            console.log(metric.width);
-
-            ctx.save(); // this will "save" the normal canvas to return to
-            if(maxWidth != null && metric.width > maxWidth) {
-                // These two methods will change EVERYTHING
-                // drawn on the canvas from this point forward
-                // Since we only want them to apply to this one fillText,
-                // we use save and restore before and after
-
-                // We want to find the center of the text (or whatever point you want) and rotate about it
-                var tx = x + (metric.width/2);
-                var ty = y + 5;
-
-                // Translate to near the center to rotate about the center
-                ctx.translate(tx,ty);
-                // Then rotate...
-                ctx.rotate(Math.PI / 2);
-                // Then translate back to draw in the right place!
-                ctx.translate(-tx,-ty);
-            }
-            ctx.fillText(text, x, y);
-            ctx.restore(); // This will un-translate and un-rotate the canvas
-        }
-    </script>
+    <link rel="stylesheet" type="text/css" href="${resource(dir: 'css', file: 'styles.css')}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="../js/d3.min.js"></script>
+    <script src="../js/dc.js"></script>
+    <script src="../js/crossfilter.min.js"></script>
 </head>
 <body>
-<h1>hi</h1>
 
-<canvas id="canvas" width></canvas>
-<header class="pagehead" name="intro">
-    <br/>    <br/>    <br/>
-    <span>
-        <input size=90 type="text" />
-        <input type="submit" value="search"/>
-        <g:img dir="images" file="bard_logo_small.png" width="250" height="100"/>"
-    </span>
-</header>
-<section>
-    <div class="crossproduct">
-        <table class="cprod" width="100%" border=1>
-            <script type="text/javascript">
-                var layer = {};
-                layer['background'] = new canvasLayer('body', 'canvas');
-                console.log(layer);
+<div id="chart"></div>
 
-                drawSomeText(50, 50, '', 50, layer['background']) ;
-                var canvas = document.getElementsByTagName('canvas')[0],
-                        c = canvas.getContext('2d');
+<script type="text/javascript">
+    var data = [ // <-A
+        {expense: 10, category: "Retail"},
+        {expense: 15, category: "Gas"},
+        {expense: 30, category: "Retail"},
+        {expense: 50, category: "Dining"},
+        {expense: 80, category: "Gas"},
+        {expense: 65, category: "Retail"},
+        {expense: 55, category: "Gas"},
+        {expense: 30, category: "Dining"},
+        {expense: 20, category: "Retail"},
+        {expense: 10, category: "Dining"},
+        {expense: 8, category: "Gas"}
+    ];
 
-                c.font = "15px Arial,sans-serif";
-                c.textAlign = "center";
-               // c.fillText("I am a canvas",90,36);
-            </script>
-            <tr>
-                <td class="cprodlt"><div class="revspin">3.94uM</div></td>
-                <td class="cprodt"><div class="revspin">65.2%</div></td>
-                <td class="cprodt"><div class="revspin">12.0%</div></td>
-                <td class="cprodrt"><div class="revspin">11.2uM</div></td>
-            </tr>
-            <tr>
-                <td class="cprodl"><div class="revspin">&gt;90uM</div></td>
-                <td class="cprod"><div class="revspin">--</div></td>
-                <td class="cprod"><div class="revspin">789</div></td>
-                <td class="cprodr"><div class="revspin">19.2uM</div></td>
-            </tr>
-            <tr>
-                <td class="cprodl"><div class="revspin">2.43uM</div></td>
-                <td class="cprod"><div class="revspin">25.0%</div></td>
-                <td class="cprod"><div class="revspin">78.9%</div></td>
-                <td class="cprodr"><div class="revspin">--</div></td>
-            </tr>
-            <tr>
-                <td class="cprodlb"><div class="revspin">1.07uM</div></td>
-                <td class="cprodb"><div class="revspin">45.6%</div></td>
-                <td class="cprodb"><div class="revspin">9.82%</div></td>
-                <td class="cprodrb"><div class="revspin">27.3uM</div></td>
-            </tr>
-        </table>
-    </div>
-</section>
-<section id="leftcol">
-    <table>
-        <tr>
-            <th class="cmptbl">Structure</th>
-            <th class="cmptbl">Active vs.<br /> tested</th>
-            <th class="cmptbl">CID</th>
-            <th class="cmptbl">Promiscuity</th>
-        </tr>
-        <tr>
-            <td class="cmptbl">
-                <g:img dir="images" file="mol1.png" width="100" height="45"/>
-            </td>
-            <td class="cmptbl">
-                <g:img dir="images" file="pil1.png" width="100" height="45"/>
-            </td>
-            <td class="cmptbl">
-                <g:img dir="images" file="cid1.png" width="75" height="45"/>
-            </td>
-            <td class="cmptbl"></td>
-        </tr>
-        <tr>
-            <td class="cmptbl">
-                <g:img dir="images" file="mol2.png" width="100" height="45"/>
-            </td>
-            <td class="cmptbl">
-                <g:img dir="images" file="pil2.png" width="100" height="45"/>
-            </td>
-            <td class="cmptbl">
-                <g:img dir="images" file="cid2.png" width="75" height="45"/>
-            </td>
-            <td class="cmptbl"></td>
-        </tr>
-        <tr>
-            <td class="cmptbl">
-                <g:img dir="images" file="mol3.png" width="100" height="45"/>
-            </td>
-            <td class="cmptbl">
-                <g:img dir="images" file="pil3.png" width="100" height="45"/>
-            </td>
-            <td class="cmptbl">
-                <g:img dir="images" file="cid3.png" width="75" height="45"/>
-            </td>
-            <td class="cmptbl"></td>
-        </tr>
-        <tr>
-            <td class="cmptbl">
-                <g:img dir="images" file="mol4.png" width="100" height="45"/>
-            </td>
-            <td class="cmptbl">
-                <g:img dir="images" file="pil4.png" width="100" height="45"/>
-            </td>
-            <td class="cmptbl">
-                <g:img dir="images" file="cid4.png" width="75" height="45"/>
-            </td>
-            <td class="cmptbl"></td>
-        </tr>
+    function render(data) {
+        d3.select("#chart").selectAll("div.h-bar") // <-B
+                .data(data)
+                .enter().append("div")
+                .attr("class", "h-bar")
+                .append("span");
 
-    </table>
-</section>
-<section id="rightcol">
-    <table width=100%>
-        <tr>
-            <th class="cmprtbl">Assay name</th>
-            <th class="cmprtbl">Measure</th>
-        </tr>
-        <tr>
-            <td class="cmprtbl">
-                Fluorescence-based dose response cell-based high-throughput screening assay for agonists of NPY-Y1.
-            </td>
-            <td class="cmprtbl">
-                EC50
-            </td>
-        </tr>
-        <tr>
-            <td class="cmprtbl">
-                Luminescence-based cell-based high throughput confirmation assay for activators of the GAA850 frataxin (FXN) promoter
-            </td>
-            <td class="cmprtbl">
-                screening concentration
-            </td>
-        </tr>
-        <tr>
-            <td class="cmprtbl">
-                Anti-Malarial Hsp90 Inhibitors Measured in Microorganism System Using Plate Reader - 2121-01_Inhibitor_Dose_CherryPick_Activity
-            </td>
-            <td class="cmprtbl">
-                percent activity
-            </td>
-        </tr>
-        <tr>
-            <td class="cmprtbl">
-                A qHTS for Small Molecule Inhibitors of Shiga Toxin
-            </td>
-            <td class="cmprtbl">
-                AC50
-            </td>
-        </tr>
+        d3.select("#chart").selectAll("div.h-bar") // <-C
+                .data(data)
+                .exit().remove();
 
-    </table>
-</section>
+        d3.select("#chart").selectAll("div.h-bar") // <-D
+                .data(data)
+                .attr("class", "h-bar")
+                .style("width", function (d) {
+                    return (d.expense * 5) + "px";
+                })
+                .select("span")
+                .text(function (d) {
+                    return d.category;
+                });
+    }
+
+    render(data);
+
+    function load(){ // <-E
+        d3.json("http://localhost:8047/cow/straight/feedMeJson", function(error, json){ // <-F
+            data = data.concat(json);
+            render(data);
+        });
+    }
+</script>
+
+<div class="control-group">
+    <button onclick="load()">Load Data from JSON feed</button>
+</div>
 
 </body>
 </html>
