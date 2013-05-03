@@ -1,5 +1,5 @@
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("body").select("foo").append("svg")
     .attr("width", width)
     .attr("height", height + 10)
     .append("g")
